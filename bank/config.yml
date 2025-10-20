@@ -1,0 +1,10 @@
+app:
+  port: 800
+
+db:
+  driver: "postgresql"
+  host: "localhost"
+  port: "5223"
+  username: "user"
+  password: "pass"
+  database: "bank_db"
