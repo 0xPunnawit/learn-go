@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"bank/handler"
+	"bank/logs"
 	"bank/repository"
 	"bank/service"
 
@@ -15,6 +16,7 @@ import (
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/jmoiron/sqlx"
 	"github.com/joho/godotenv"
+	"go.uber.org/zap"
 )
 
 func main() {
@@ -57,6 +59,9 @@ func main() {
 
 	router.HandleFunc("/customers", customerHandler.GetCustomers).Methods(http.MethodGet)
 	router.HandleFunc("/customers/{customerId:[0-9]+}", customerHandler.GetCustomer).Methods(http.MethodGet)
+
+	port := ":8000"
+	logs.Info("Banking service started", zap.String("port", port))
 
 	http.ListenAndServe(":8000", router)
 

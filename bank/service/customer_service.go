@@ -1,10 +1,10 @@
 package service
 
 import (
+	"bank/logs"
 	"bank/repository"
 	"database/sql"
 	"errors"
-	"log"
 )
 
 type customerService struct {
@@ -19,7 +19,7 @@ func (s customerService) GetCustomers() ([]CustomerResponse, error) {
 
 	customers, err := s.custRepo.GetAll()
 	if err != nil {
-		log.Println(err)
+		logs.Error(err)
 		return nil, err
 	}
 
@@ -45,7 +45,7 @@ func (s customerService) GetCustomer(id int) (*CustomerResponse, error) {
 			return nil, errors.New("customer not found")
 		}
 
-		log.Println(err)
+		logs.Error(err)
 		return nil, err
 	}
 
