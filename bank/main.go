@@ -42,11 +42,16 @@ func main() {
 	// fmt.Println(customer)
 
 	customerRepositoryDB := repository.NewCustomerRepositoryDB(db)
-	customerRepositoryMock := repository.NewCustomerRepositoryMock()
-	_ = customerRepositoryMock
+
+	// customerRepositoryMock := repository.NewCustomerRepositoryMock()
+	// _ = customerRepositoryMock
 
 	customerService := service.NewCustomerService(customerRepositoryDB)
 	customerHandler := handler.NewCustomerHandler(customerService)
+
+	accountRepositoryDB := repository.NewAccountRepository(db)
+	accountService := service.NewAccountService(accountRepositoryDB)
+	accountHandler := handler.NewAccountHandler(accountService)
 
 	// customers, err := customerService.GetCustomer(2001)
 	// if err != nil {
@@ -59,6 +64,9 @@ func main() {
 
 	router.HandleFunc("/customers", customerHandler.GetCustomers).Methods(http.MethodGet)
 	router.HandleFunc("/customers/{customerId:[0-9]+}", customerHandler.GetCustomer).Methods(http.MethodGet)
+
+	router.HandleFunc("/customers/{customerID:[0-9]+}/accounts", accountHandler.GetAccounts).Methods(http.MethodGet)
+	router.HandleFunc("/customers/{customerID:[0-9]+}/accounts", accountHandler.NewAccount).Methods(http.MethodPost)
 
 	port := ":8000"
 	logs.Info("Banking service started", zap.String("port", port))
