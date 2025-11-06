@@ -10,10 +10,10 @@ type productRepositoryDB struct {
 	redisClient *redis.Client
 }
 
-func NewProductRepositoryDB(db *gorm.DB, redisClient *redis.Client) ProductRepository {
+func NewProductRepositoryDB(db *gorm.DB) ProductRepository {
 	db.AutoMigrate(&product{})
 	mockData(db)
-	return productRepositoryDB{db: db, redisClient: redisClient}
+	return productRepositoryDB{db: db}
 }
 
 // Method ใน productRepositoryDB
