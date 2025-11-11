@@ -2,5 +2,9 @@
 
 tmp
 
-//Goredis
+# Goredis
 data
+
+
+# ignore MySQL data folder
+gokafka/server/mysql/
